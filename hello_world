@@ -1,0 +1,17 @@
+# Part1: Hello World
+# Create class named HelloWorldClass
+# Important: classes MUST be capitalized in Ruby
+class HelloWorldClass
+    # initialize constructor initializes var @name
+    def initialize(name)
+       @name = name.capitalize # capitalize char 0 of string
+    end
+    # sayHi method writes text to screen
+    def sayHi
+        puts "Hello, #{@name}!"
+    end
+end
+# create new class object hello
+hello = HelloWorldClass.new("jessica")
+# call sayHi on object hello
+hello.sayHi
