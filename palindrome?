@@ -1,0 +1,40 @@
+# Part2: Palindrome
+# Create method named palindrome?
+def palindrome?(string)
+    # change all uppercase to lowercase & remove non-letter chars
+    str1 = string.downcase.scan(/\w/)
+    # store reverse string
+    str2 = str1.reverse
+    # compare stripped string to its reverse
+    if str2 == str1
+        true
+    else
+        false
+    end
+end
+
+# Three tests
+
+puts "Test 1: Is 'A man, a plan, a canal -- Panama!' a palindrome?"
+if palindrome?("A man, a plan, a canal -- Panama!") == true
+   puts "true"
+else
+   puts "false"
+end
+
+puts "Test 2: Is 'Madam, I'm Adam!' a palindrome?"
+if palindrome?("Madam, I'm Adam!") == true
+   puts "true"
+else
+   puts "false"
+end
+
+puts "Test 2: Is 'Abracadabra' a palindrome?"
+if palindrome?("Abracadabra") == true
+   puts "true"
+else
+   puts "false"
+end
+
+# Referenced: http://ruby-doc.org/ and
+# http://stackoverflow.com/questions/8462512/ruby-way-to-check-for-string-palindrome
