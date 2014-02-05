@@ -1,0 +1,46 @@
+# Part 9
+# Write a program to perform currency conversion calculations and disregard
+# pluralization of currency variable names
+
+class Numeric
+    # Create hash table with singular currency names for @@currencies class object
+    @@currencies = {'yen' => 0.013, 'euro' => 1.292, 'rupee' => 0.019, 'dollar' => 1}
+
+    # Handles singular method
+    def method_missing(method, *arg)
+        # Store currency ignoring any pluralization
+        singular_currency = method.to_s.gsub(/s$/,'')
+        # If key pointed to by class object, get conversion value of currency
+        if @@currencies.has_key?(singular_currency)
+            self * @@currencies[singular_currency]
+        # If no key found, pass original method call and its orig. args intact
+        # up the inheritance chain (i.o.w. pass the buck to the superclass).
+        else
+            super
+        end
+    end
+    
+    # Handles singular arg/parameter (alternative to method missing)
+    def in(arg)
+        # Removes s from arg thus making it singular
+        singular_currency = arg.to_s.gsub(/s$/,'')
+        if @@currencies.has_key?(singular_currency)
+            self * @@currencies[singular_currency]
+        end
+    end
+end
+
+
+# TEST CODE:
+
+# Using method_missing method
+puts "5.euro = " + 5.euro.to_s
+puts "5.euros = " + 5.euros.to_s
+# Using in method
+puts "5.dollars.in(:euros) = " + 5.dollars.in(:euros).to_s
+puts "10.euros.in(:rupees) = " + 10.euros.in(:rupees).to_s
+
+
+# Reference: http://stackoverflow.com/questions/9651612/ruby-method-missing,
+# http://pastebin.com/DpE8VAH4 and pg 82. of Engineering Software as a Service 
+# by Fox & Patterson.
