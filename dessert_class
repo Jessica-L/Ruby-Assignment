@@ -1,0 +1,83 @@
+# 7(a) Create a class Dessert with getters and setters for name and calories. 
+# Define instance methods healthy?, which returns true if a dessert has less
+# than 200 calories, and delicious? which returns true for all desserts.
+
+class Dessert
+    
+    # Use metaprogramming (shortcut) to create getter / setter for object attributes
+    # attr_accessor :name, :calories
+    
+    # Default constructor to initialize @name and @calories
+    def initialize(name, calories)
+        @name = name
+        @calories = calories
+    end
+    
+    # Getter for @name
+    def name
+        @name
+    end
+    
+    # Setter for @name
+    def name=(str)
+        @name = str
+    end
+    
+    # Getter & setter for @calories ( in different format )
+    def calories ; @calories ; end
+    def calories=(str) ; @calories = str ; end
+   
+    # Return true if less than 200 calories; false, if not.
+    def healthy?
+        @calories < 200
+    end
+
+    # Return true if it's a dessert; false, if not.
+    def delicious?
+        return true
+    end
+
+end
+
+# 7(b) Create a class JellyBean that extends Dessert, and add a getter and setter
+# for flavor. Modify delicious? to return false if the flavor is "black licorice" 
+# (but delicious? should still return true for all other flavors and for all 
+# non-JellyBean desserts).
+
+class JellyBean < Dessert
+
+    def initialize(name, calories, flavor)
+        # Call initialize in Dessert (the super class) passing
+        # original parameters: name & calories
+        super(name, calories)
+        @flavor = flavor
+    end
+
+    # Getter & setter for @flavor
+    def	flavor ; @flavor ; end
+    def flavor=(str) ; @flavor = str ; end
+
+    # Return true if it's a dessert AND not black licorice
+    def delicious?
+        flavor != "black licorice"
+    end
+
+end
+
+
+# TEST CODE:
+
+dessert1 = Dessert.new("icecream",400)
+puts dessert1.delicious? # => true
+puts dessert1.healthy?   # => false
+puts ""
+dessert2 = JellyBean.new("black",200,"black licorice")
+puts dessert2.delicious? # => false
+puts dessert2. healthy?  # => false
+puts ""
+dessert3 = JellyBean.new("pink",180,"cotton candy")
+puts dessert3.delicious? # => true
+puts dessert3.healthy?   # => true
+
+
+# Reference: http://pastebin.com/XN3B9lrh and http://stackoverflow.com/questions/4370960/what-is-attr-accessor-in-ruby and pg. 78 in Engineering Software as a Service by Fox & Patterson.
