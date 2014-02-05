@@ -1,0 +1,50 @@
+# Part 11: Cartesian Product
+# Returns an n-tuple based on n elements in array1 and n elements in array2
+
+class CartesianProduct
+    include Enumerable
+        # Default constructor
+        def initialize(arr_1,arr_2)
+            @arr_1 = arr_1
+            @arr_2 = arr_2
+        end
+
+        def each  
+            # Create ordered pairs leading with each element in array1 since
+            # arr_2 is the nested loop   
+            @arr_1.each do |a|
+                @arr_2.each do |b| # pairs each element of array 2 with arr_1[i]
+                    # Yield fills the parameters a and b recieved by the above
+		    # blocks with their revised value per iteration. 
+                    yield [a,b] # Return value of a and b (per iteration) 
+                end                    
+            end                    
+        end 
+end 
+
+
+# TEST CODE:
+
+c = CartesianProduct.new([:a,:b,:c],[4,5])
+c.each { |elt| puts elt.inspect }
+#[:a, 4]
+#[:a, 5]
+#[:b, 4]
+#[:b, 5]
+#[:c, 4]
+#[:c, 5]
+puts ""
+c = CartesianProduct.new([:a,:b], [])
+c.each { |elt| puts elt.inspect }
+puts "Cartesian product of anything with an empty collection is empty."
+puts ""
+c = CartesianProduct.new([1,2], [:a,:b])
+c.each { |elt| puts elt.inspect }
+#[1, :a]
+#[1, :b]
+#[2, :a]
+#[2, :b]
+
+
+# Reference: http://pastebin.com/fjRaWiGL and
+# http://stackoverflow.com/questions/3066703/blocks-and-yields-in-ruby
