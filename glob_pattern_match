@@ -1,0 +1,46 @@
+# Part 6: Glob Pattern Match
+# Write a function called glob_match(filenames, pattern), which takes an array of
+# filename strings and a glob pattern string and returns an array of the filenames 
+# that match the UNIX glob rules.
+
+def glob_match(filenames, pattern)
+
+    # Adjust pattern to allow for conversion to regexp
+    p = pattern.gsub( '*', '.*' ).gsub( '?', '.' )
+    # Convert string pattern to regexp pattern
+    r = Regexp.new( p )
+    # Declare empty list
+    newList  = []
+
+    # Iterate through filenames to find a match
+    for name in filenames
+        # Compare filename with pattern
+        result = name.match(r)
+        if result != nil
+           # Append match to end of newList
+           newList << name
+        end
+    end
+    # returns array of (string) matches in proper format
+    return newList.to_s
+
+end
+
+# TEST CODE:
+
+puts glob_match(["part1.rb", "part2.rb", "part2.rb~", ".part3.rb.un~"],'*part*rb?*')
+
+# answer should be ==> [“part2.rb~”, “.part3.rb.un~”]
+
+puts glob_match(["part1.rb", "part2.rb", "part2.rb&", ".part3.rb.fun$"],'*part*rb?*')
+
+# answer should be ==> [“part2.rb&”, “.part3.rb.fun$”]
+
+
+# Reference: http://pleac.sourceforge.net/pleac_ruby/patternmatching.html,
+# http://apidock.com/ruby/String/gsub, http://www.tutorialspoint.com/ruby/ruby_classes.htm,
+#http://stackoverflow.com/questions/10963244/rails-3-check-if-string-text-includes-a-certain-word-character-via-regex-in-co (for match method),
+# http://my.safaribooksonline.com/book/web-development/ruby/0596523696/arrays/rubyckbk-chp-4-sect-1 and http://batsov.com/articles/2013/08/30/using-gsub-with-a-block/
+
+# match - returns a MatchData object describing the match, or nil if there was no match. Used in
+# conjunction with regexps.
