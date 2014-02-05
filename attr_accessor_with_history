@@ -1,0 +1,54 @@
+# PROBLEM: 8
+# Define a method attr_accessor_with_history that provides the same functionality as attr_accessor but also tracks every value the attribute has ever taken.
+
+class Class
+
+  def attr_accessor_with_history(attr_name)
+  attr_name = attr_name.to_s   	   # make sure it's a string
+  attr_reader attr_name            # create the attribute's getter
+  attr_reader attr_name+"_history" # create bar_history getter
+
+  a = %Q{
+        def initialize
+          @#{attr_name}_history = [nil]
+        end         
+
+        def #{attr_name}
+          @#{attr_name} 
+        end 
+
+        def #{attr_name}=(new_value)
+          @#{attr_name}=new_value 
+          @#{attr_name}_history.push(new_value)
+        end }
+      puts a
+      
+      # Evaluate the multiline string in a in the cotext of mod
+      # thus adding methods to class Class via
+      # metaprogramming
+      class_eval(a)
+
+  end
+end
+
+class Foo
+
+    attr_accessor_with_history :bar
+
+end
+
+
+# TEST CODE:
+
+f = Foo.new
+
+f.bar = 1
+
+f.bar = 2
+
+puts f.bar_history.to_s # => if your code works, should be [nil, 1, 2]
+
+
+# Reference: http://maxivak.com/ruby-metaprogramming-and-own-attr_accessor/
+
+# class_eval: evaluates the string or block in the context of mod; allows us to define a method within a particular class outside of its original definition and without reopening the class with the standard syntax. This could be useful when the class you want to add this method to is not known until runtime.
