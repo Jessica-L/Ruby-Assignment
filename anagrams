@@ -1,0 +1,27 @@
+# Part 5: Anagrams
+# Group anagrams together from array of words
+
+def combine_anagrams(words)
+    # groups the words in the array by result of the block
+    # each element of the block is made case insensitive,
+    # broken up into its chars put into an array and sorted --
+    # if elements share the same chars and the same number
+    # of each char, then they are grouped together.
+    # Returns the values of the hash.
+    words.group_by { |element| element.downcase.chars.sort }.values
+end
+
+# Tests:
+
+# input array
+a = ['cars', 'for', 'potatoes', 'racs', 'four', 'scar', 'creams', 'scream']
+
+puts combine_anagrams(a).to_s
+# output should be: [ ["cars", "racs", "scar"], ["four"], ["for"], ["potatoes"], 
+# ["creams", "scream"] ]
+
+# Referenced: http://stackoverflow.com/questions/9646995/ruby-way-to-group-anagrams-in-string-array
+
+# group_by: Groups the collection by result of the block. Returns a hash where the keys are the evaluated result from the block and the values are arrays of elements in the collection that correspond to the key.
+
+# chars: returns an array of characters in str. This is a shorthand for str.each_char.to_a. If a block is given, which is a deprecated form, works the same as each_char.
