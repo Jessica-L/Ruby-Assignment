@@ -1,0 +1,86 @@
+# Part4(a): Rock, Paper, Scissors
+# Prints final winner of RPS Tournament (moves are fixed, winner plays winner)
+
+# Extend WrongNumberOfPlayersError to StandardError
+class WrongNumberOfPlayersError < StandardError ; end
+
+# Extend NoSuchStrategyError to StandardError
+class NoSuchStrategyError < StandardError ; end
+
+# Check if valid strategy 
+def check_strategy(strategy)
+    # Not empty
+    if strategy == nil 
+        return false
+    # Must be single char string
+    elsif !strategy.is_a?(String)
+        return false
+    # Make case insensitive and checks if r, p or s
+    elsif !strategy.downcase.match(/[rps]/) 
+        return false
+    else
+        return true
+    end
+end
+     
+def rps_game_winner(game)
+    # Checks num of players equivalent to 2 (array of size 2)
+    raise WrongNumberOfPlayersError unless game.length == 2
+    # Checks correct strategy played, must be r, p or s (case insensitive)
+    raise NoSuchStrategyError unless check_strategy(game[0][1]) && check_strategy(game[1][1])
+    
+    # Create array of winning combinations 
+    winning_combinations = ["rs", "sp", "pr", "rr", "ss", "pp"]
+    
+    # Looks up winning combination from table and determines the winner of the game
+    return winning_combinations.index(game[0][1].downcase+game[1][1].downcase) ? game[0] : game[1]
+end
+
+
+#Part4(b): R,P,S Tournament   
+
+# Returns true if String (must be single game) and false (must be tournament) if not
+def contains_game(game)
+    return game[0][0].is_a?(String)
+end
+
+# Calls rps_game_winner to conduct rps tournament and determine tournament winner
+def rps_tournament_winner(tournament)
+    if contains_game(tournament) # if just two players (single game), return winner
+       return rps_game_winner(tournament)
+    end
+    # if tournament, recursively call rps_tournament_winner until get down to just two players;
+    # does this for tournament[0] and then tournament[1]; winner of each plays final game
+    rps_game_winner [rps_tournament_winner(tournament[0]), rps_tournament_winner(tournament[1])]
+end
+
+
+# TEST CODE:
+
+puts ""
+game_list = [[ "Armando", "P" ], [ "Dave", "S" ]]
+    
+puts "Game 1: " + game_list.to_s + " => " + "Game Winner: " + rps_game_winner(game_list).to_s
+
+puts    
+tournament_list = 
+[
+    [
+       [ ["Armando", "P"],  ["Dave", "S"]       ],
+       [ ["Richard", "R"],  ["Michael", "S"]    ],
+    ],
+
+    [
+       [ ["Allen", "S"],    ["Omer", "P"]       ],
+       [ ["David E.", "R"], ["Richard X.", "P"] ]
+    ]
+]
+
+puts "Tournament 1: " + tournament_list.to_s + " => " + "Tournament Winner: " + 
+     rps_tournament_winner(tournament_list).to_s
+     
+gets
+
+# Referenced:
+# http://pastebin.com/GeXQx2FY 
+# https://gist.github.com/feiskyer/1964724
