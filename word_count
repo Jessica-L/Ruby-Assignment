@@ -6,7 +6,7 @@ def count_words(string)
     # Make case insensitive, search for all non-whitespace word characters,
     # map puts each word found into h, h assigns value to each word key
     # showing how many times it occurs in the string parameter.
-    string.downcase.scan(/\w\S+/).map{|word| h[word] = string.downcase.scan(/\b#{word}\b/).size}
+    string.downcase.scan(/\w+/).map{|word| h[word] = string.downcase.scan(/\b#{word}\b/).size}
     return h
 
 end
@@ -21,9 +21,14 @@ hash2 = count_words("Doo bee doo bee doo")
 puts hash2
     # => {'doo' => 3, 'bee' => 2}
 
+
+# Referenced:
+# http://stackoverflow.com/questions/9448456/count-words-without-loops
+
+
+# NOTE: This test does not pass for the above code. So as an extra challenge, try to write Ruby code
+# that can handle words like C++ and for-loop without affecting my results for the above tests. :-)
 puts "Test 3: How many words in 'For a for-loop constraint, go recursion! Are you in Ruby or C++?'?"
 hash3 = count_words("For a for-loop constraint, go recursion! Are you in Ruby or C++?")
 puts hash3
 
-# Referenced:
-# http://stackoverflow.com/questions/9448456/count-words-without-loops
